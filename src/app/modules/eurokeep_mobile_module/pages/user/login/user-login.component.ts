@@ -66,6 +66,13 @@ export class UserLoginComponent extends AbstractPageComponent {
         this.Subscription.add(this.AuthenticationService.init().subscribe({
             next: (result: AuthInitResponse) => {
                 this.enable_registration = result.enable_registration;
+                if (result.is_logged_in && result.user) {
+                    this.LocalStorageService.setItem('AUTH.USER', result.user);
+                    this.AuthenticationService.setUser(result.user);
+                    this.NotyService.genericSuccess(this.TranslocoService.translate('Welcome back') + " " + result.user.name)
+                    this.Router.navigate(['/mobile/home']);
+                    return;
+                }
                 this.LocalStorageService.setItem('EUROKEEP.ENABLE_REGISTRATION', result.enable_registration);
                 this.ChangeDetectorRef.markForCheck();
                 this.startDemo(isDemo);

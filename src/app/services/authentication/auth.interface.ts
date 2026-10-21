@@ -9,6 +9,8 @@ export interface LoginRequest {
 
 export interface AuthInitResponse extends AbstractHttpResponse {
     enable_registration: boolean
+    is_logged_in : boolean
+    user: User
 }
 
 export interface RegisterResponse extends AbstractHttpResponse{
