@@ -1,0 +1,6 @@
+<ng-container *transloco="let t">
+    <span (click)="copy()" class="clippy">
+        <fa-icon [icon]="['fas', 'copy']"  [cTooltip]="t('Copy')" cTooltipPlacement="top" />
+        <ng-content></ng-content>
+    </span>
+</ng-container>

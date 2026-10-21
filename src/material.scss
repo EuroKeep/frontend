@@ -1,0 +1,181 @@
+@use '@angular/material' as mat;
+@use "sass:map";
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+
+$primary-palette: (
+    50: #e0e7f3,
+    100: #b3c2e0,
+    200: #8099cc,
+    300: #4d70b8,
+    400: #2652a8,
+    500: #003399, // EU-Blau der Website
+    600: #002e91,
+    700: #002786,
+    800: #00207c,
+    900: #00146b,
+    A100: #b3c4ff,
+    A200: #8fa8ff,
+    A400: #5c7fff,
+    A700: #3d63d6,
+    contrast: (
+        50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $light-primary-text,
+        400: $light-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+        A100: $dark-primary-text,
+        A200: $light-primary-text,
+        A400: $light-primary-text,
+        A700: $light-primary-text,
+    )
+);
+
+$secondary-palette: (
+    50: #e0e7f3,
+    100: #b3c2e0,
+    200: #8099cc,
+    300: #4d70b8,
+    400: #2652a8,
+    500: #003399, // EU-Blau der Website
+    600: #002e91,
+    700: #002786,
+    800: #00207c,
+    900: #00146b,
+    A100: #b3c4ff,
+    A200: #8fa8ff,
+    A400: #5c7fff,
+    A700: #3d63d6,
+    contrast: (
+        50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $light-primary-text,
+        400: $light-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+        A100: $dark-primary-text,
+        A200: $light-primary-text,
+        A400: $light-primary-text,
+        A700: $light-primary-text,
+    )
+);
+
+$warn-palette: (
+    50: #f9e0e0,
+    100: #f0b3b3,
+    200: #e68080,
+    300: #db4d4d,
+    400: #d42626,
+    500: #cc0000,
+    600: #c70000,
+    700: #c00000,
+    800: #b90000,
+    900: #ad0000,
+    A100: #ffd7d7,
+    A200: #ffa4a4,
+    A400: #ff7171,
+    A700: #ff5858,
+    contrast: (
+        50: $dark-primary-text,
+        100: $dark-primary-text,
+        200: $dark-primary-text,
+        300: $dark-primary-text,
+        400: $dark-primary-text,
+        500: $light-primary-text,
+        600: $light-primary-text,
+        700: $light-primary-text,
+        800: $light-primary-text,
+        900: $light-primary-text,
+        A100: $dark-primary-text,
+        A200: $light-primary-text,
+        A400: $light-primary-text,
+        A700: $light-primary-text,
+    )
+);
+
+$dark-theme: mat.m2-define-dark-theme((
+    color: (
+        theme-type: dark,
+        primary: mat.m2-define-palette($primary-palette, 500),
+        accent: mat.m2-define-palette($secondary-palette, 500),
+        warn: mat.m2-define-palette($warn-palette),
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: -2,
+));
+
+$light-theme: mat.m2-define-light-theme((
+    color: (
+        theme-type: light,
+        primary: mat.m2-define-palette($primary-palette, 500),
+        accent: mat.m2-define-palette($secondary-palette, 500),
+        warn: mat.m2-define-palette($warn-palette),
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: -2,
+));
+
+//$dark-theme: map.merge($dark-theme, (background: $custom-background));
+
+
+// Apply the light theme by default
+@include mat.all-component-themes($light-theme);
+
+
+// Apply the dark theme only when the user prefers dark themes.
+@media (prefers-color-scheme: dark) {
+    // Use the `-color` mixins to only apply color styles without reapplying the same
+    // typography and density styles.
+
+    // Irgendwie funktioniert das nicht sondern es wird einfach IMMER der dark modus genutzt
+    //@include mat.all-component-themes($dark-theme);
+}
+
+
+// For debugging.
+//$background: map.get($dark-theme, background);
+//$background: map.get($background, background);
+//@debug $background; // Outputs "red", CORRECT
+//@debug mat.get-theme-color($dark-theme, background, background); // Outputs #303030, WRONG
+//@debug mat.get-theme-color($dark-theme, primary, 900); // Outputs #0020c6, CORRECT
+
+//.mat-app-background {
+//  background-color: mat.get-theme-color($dark-theme, background, background); // Outputs #303030, WRONG
+//}
+
+
+//$color-map: map.get($dark-theme, 'color');
+//$modified-color-map: map.merge($color-map, ('background': $custom-background));
+//$dark-theme: map.merge($dark-theme, ('color': $modified-color-map));
+
+// Add .dark-theme to <body> to apply the dark theme.
+.dark-theme {
+    @include mat.all-component-themes($dark-theme);
+}
+
+// Add .light-theme to <body> to apply the dark theme.
+.light-theme {
+    @include mat.all-component-themes($light-theme);
+}

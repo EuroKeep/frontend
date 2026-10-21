@@ -1,0 +1,35 @@
+@use "sass:color";
+
+/* Add large checkboxes */
+
+.checkbox-lg {
+    width: 20px;
+    height: 20px;
+}
+
+.radio-lg {
+    width: 20px;
+    height: 20px;
+}
+
+@each $color-name, $color-value in $theme-colors {
+    .checkbox-#{$color-name}.form-check-input:checked {
+        background-color: $color-value;
+        border-color: $color-value;
+    }
+
+    .checkbox-#{$color-name}.form-check-input:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem color.adjust($color-value, $alpha: -0.75);
+    }
+
+    .radio-#{$color-name}.form-check-input:checked {
+        background-color: $color-value;
+        border-color: $color-value!important;
+    }
+
+    .radio-#{$color-name}.form-check-input:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.3rem color.adjust($color-value, $alpha: -0.75);
+    }
+}

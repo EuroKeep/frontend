@@ -1,0 +1,3 @@
+<ng-container *transloco="let t">
+    <c-progress [height]=3 [value]="Math.max(100 - Math.abs(Budget().spent / Budget().limit * 100), 0)" [color]="color()"/>
+</ng-container>

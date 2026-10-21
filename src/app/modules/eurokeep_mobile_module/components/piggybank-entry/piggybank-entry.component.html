@@ -1,0 +1,49 @@
+<ng-container *transloco="let t">
+    <c-card class="mt-3">
+        <c-badge
+                [routerLink]="['/', 'mobile', 'saving', 'edit', Piggybank().id]"
+                color="primary" position="top-end" shape="rounded-pill">
+            <fa-icon [icon]="['fas', 'edit']"/>
+        </c-badge>
+        <c-card-body class="p-1" [routerLink]="['/', 'mobile', 'saving', 'save', Piggybank().id]">
+            <c-row class="align-items-center">
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+                    <span>
+                        {{ Piggybank().name }}
+                    </span>
+                    <br/>
+                    @if (Piggybank().end) {
+                        @let months = getRemainingMonths(Piggybank());
+                        @if (getSavingsRate(Piggybank()); as rate) {
+                            <small class="fw-300 text-muted">
+                                {{ t('{{Months}} x', {Months: months}) }}
+                                <balance
+                                        [Currency]="Piggybank().balance_currency"
+                                        [Value]="rate"/>
+                            </small>
+                        }
+                    }
+                </c-col>
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                    <balance
+                            [Currency]="Piggybank().balance_currency"
+                            [Value]="Piggybank().balance_value"/>
+                    <fa-icon [icon]="['fas', 'hand-holding-dollar']"/>
+                </c-col>
+
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                    <balance
+                            [Currency]="Piggybank().balance_currency"
+                            [Value]="Piggybank().target"/>
+                    <fa-icon [icon]="['fas', 'bullseye']"/>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col>
+                    <c-progress [height]=3 [value]="Piggybank().balance_value / Piggybank().target * 100"
+                                color="success"/>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+</ng-container>

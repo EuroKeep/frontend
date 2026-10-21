@@ -1,0 +1,71 @@
+<ng-container *transloco="let t">
+    @if (Account && Transaction) {
+        <form cForm (ngSubmit)="save()">
+            <c-row class="mt-3">
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+                    @if (this.AuthenticationService.getUser().settings.helpDisplay && this.helpUrl.length > 0) {
+                        <a cButton size="sm" class="ripple" target="_blank" [href]="this.helpUrl" color="info">
+                            <fa-icon [icon]="['fas', 'info-circle']" /> {{ t('Get help') }}
+                        </a>
+                    }
+                    <button cButton size="sm" class="ripple" [routerLink]="['/', 'mobile', 'transaction', 'edit', Transaction.id]" color="dark">
+                        <fa-icon [icon]="['fas', 'arrow-left']"/> {{ t('Back') }}
+                    </button>
+                </c-col>
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-center">
+                    <h5>{{t('Save into your piggy bank')}}</h5>
+                </c-col>
+                <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                    <c-button-group>
+                        <button cButton size="sm" class="ripple" [nSpamsaveButton]="IsWorking" color="success" type="submit" [disabled]="round2(Transaction.balance_value - piggybanksSaveSum) !== 0">
+                            {{ t('Save') }} <fa-icon [icon]="['fas', 'arrow-right']"/>
+                        </button>
+                    </c-button-group>
+                </c-col>
+            </c-row>
+            <c-card class="mt-3">
+                <c-card-body>
+                    <table bordered cTable class="mt-3 mb-0 table table-fit" hover striped matSort>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <balance
+                                            [Currency]="Account.balance_currency"
+                                            [Value]="Transaction.balance_value - piggybanksSaveSum"/>
+                                    {{ t('of') }}
+                                    <balance
+                                            [Currency]="Account.balance_currency"
+                                            [Value]="Transaction.balance_value"/>
+                                    {{ t('remaining') }}
+                                </td>
+                            </tr>
+                            @for (Piggybank of Piggybanks; track Piggybank.id) {
+                                <tr>
+                                    <td>
+                                        {{ Piggybank.name }}
+                                        <br />
+                                        <balance [Currency]="Account.balance_currency" [Value]="Piggybank.balance_value" />
+                                        +
+                                        <balance [Currency]="Account.balance_currency" [Value]="Number(post.parts[Piggybank.id] || 0)" />
+                                        =
+                                        <balance [Currency]="Account.balance_currency" [Value]="Number(post.parts[Piggybank.id] || 0) + Number(Piggybank.balance_value)" />
+                                        <br />
+                                        <input type="range"
+                                               class="w-100"
+                                               [min]="0"
+                                               [name]="'balance_value_' + Piggybank.id"
+                                               [ngModelOptions]="{standalone: true}"
+                                               [(ngModel)]="post.parts[Piggybank.id]"
+                                               (ngModelChange)="onShareChange(Piggybank)"
+                                               [max]="Transaction.balance_value"
+                                        />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </c-card-body>
+            </c-card>
+        </form>
+    }
+</ng-container>

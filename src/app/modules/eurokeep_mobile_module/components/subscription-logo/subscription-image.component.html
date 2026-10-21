@@ -1,0 +1,7 @@
+<ng-container *transloco="let t">
+    <img
+            class="subscription-image"
+            [src]="SubscriptionService.logoUrl(SubscriptionItem())"
+            [alt]="t('{{Name}} logo', {Name: SubscriptionItem().name})"
+            [title]="SubscriptionItem().name"/>
+</ng-container>

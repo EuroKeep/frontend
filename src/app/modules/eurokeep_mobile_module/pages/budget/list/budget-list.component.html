@@ -1,0 +1,177 @@
+<ng-container *transloco="let t">
+    <c-row class="mt-3">
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+            @if (this.AuthenticationService.getUser().settings.helpDisplay && this.helpUrl.length > 0) {
+                <a cButton size="sm" class="ripple" target="_blank" [href]="this.helpUrl" color="info">
+                    <fa-icon [icon]="['fas', 'info-circle']"/>
+                    {{ t('Get help') }}
+                </a>
+            }
+        </c-col>
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-center">
+            <h5>{{ t('Budgets') }}</h5>
+        </c-col>
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+            <c-button-group>
+                <button cButton size="sm" class="ripple" [routerLink]="['/', 'mobile', 'budget', 'add']"
+                        color="success">
+                    {{ t('Create') }}
+                    <fa-icon [icon]="['fas', 'plus']"/>
+                </button>
+            </c-button-group>
+        </c-col>
+    </c-row>
+    @if (Budgets && Budgets.length === 0) {
+        <c-container [fluid]="true">
+            <c-row>
+                <c-col class="text-center text-danger fst-italic pt-3 pb-3">
+                    {{ t('Start by adding a budget.') }}
+                </c-col>
+            </c-row>
+        </c-container>
+    }
+    @if (Budgets && Budgets.length) {
+        <date-browser
+                [Start]="params.start"
+                [End]="params.end"
+                (changed)="index()"
+                [BlockIncrease]="true"
+        />
+
+        @if (Total) {
+            <c-card class="mt-3">
+                <c-card-body class="p-1">
+                    <c-row>
+                        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+                            <c-card>
+                                <c-card-header>
+                                    <b>
+                                        {{ t('Budget') }}
+                                    </b>
+                                </c-card-header>
+                                <c-card-body class="p-1 text-end">
+                                    <h6>
+                                        <strong>
+                                            <balance [Value]="Total.total" [Currency]="Currency.eur" [Color]="'white'"/>
+                                        </strong>
+                                    </h6>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+                            <c-card>
+                                <c-card-header>
+                                    <b>
+                                        @if (-Total.spentValue < Total.total) {
+                                            {{ t('Available') }}
+                                        } @else {
+                                            {{ t('Overspent') }}
+                                        }
+                                    </b>
+                                </c-card-header>
+                                <c-card-body class="p-1 text-end">
+                                    <h6>
+                                        <strong>
+                                            @if (-Total.spentValue < Total.total) {
+                                                <balance [Value]="Total.freeValue" [Currency]="Currency.eur"/>
+                                            } @else {
+                                                <balance [Value]="Total.total + Total.spentValue"
+                                                         [Currency]="Currency.eur"/>
+                                            }
+                                        </strong>
+                                    </h6>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+                            <c-card>
+                                <c-card-header>
+                                    <b>
+                                        {{ t('Expenses') }}
+                                    </b>
+                                </c-card-header>
+                                <c-card-body class="p-1 text-end">
+                                    <h6>
+                                        <strong>
+                                            <balance [Value]="Total.spentValue" [Currency]="Currency.eur"
+                                                     [Color]="'white'"/>
+                                        </strong>
+                                    </h6>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                    </c-row>
+                    <c-progress
+                            class="mt-3"
+                            [height]=5
+                            [value]="getBudgetProgress(Total.spentValue, Total.total)"
+                            [color]="getBudgetColor(Total.spentValue, Total.total)"/>
+                </c-card-body>
+            </c-card>
+        }
+
+
+        @for (Budget of Budgets; track Budget.id) {
+
+            <c-card class="mt-3">
+                @if (showBudgetTransactions[Budget.id]) {
+                    <c-badge
+                            [routerLink]="['/', 'mobile', 'budget', 'edit', Budget.id]"
+                            color="primary" position="top-end" shape="rounded-pill">
+                        <fa-icon [icon]="['fas', 'edit']"/>
+                    </c-badge>
+                }
+                <c-card-body class="p-1" (click)="toggleBudgetTransactionsDisplay(Budget.id)">
+                    <c-row class="align-items-center">
+                        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+                            {{ Budget.category?.emoji }}
+                            {{ Budget.name }}
+                        </c-col>
+                        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                            @if (Budget.limit + Budget.spent < 0) {
+                                <balance
+                                        [AnimateFirstValue]="true"
+                                        [Currency]="Budget.currency"
+                                        [Value]="Budget.limit + Budget.spent"
+                                        [cTooltip]="t('The amount you overspent on this budget.')" />
+                                <fa-icon [icon]="['fas', 'exclamation-triangle']"
+                                         [cTooltip]="t('You exceeded this budget.')"/>
+                            } @else {
+                                <balance
+                                        [AnimateFirstValue]="true"
+                                        [Currency]="Budget.currency"
+                                        [Value]="Budget.limit + Budget.spent"
+                                        [cTooltip]="t('The amount you have left on this budget.')"/>
+                                <fa-icon [icon]="['fas', 'hand-holding-dollar']"
+                                         [cTooltip]="t('You are within your budget.')"/>
+                            }
+                        </c-col>
+                        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                            <balance
+                                    [AnimateFirstValue]="true"
+                                    [Currency]="Budget.currency"
+                                    [Value]="Math.max(0, Budget.limit)"/>
+                            <fa-icon [icon]="['fas', 'wallet']"/>
+
+                        </c-col>
+                    </c-row>
+                    <c-progress class="mt-3"
+                                [height]=5
+                                [value]="getBudgetProgress(Budget.spent, Budget.limit)"
+                                [color]="getBudgetColor(Budget.spent, Budget.limit)"/>
+                </c-card-body>
+                @if (showBudgetTransactions[Budget.id] && Budget.category?.transactions?.length) {
+                    <transaction-list [Transactions]="Budget.category?.transactions || []"/>
+                } @else if (showBudgetTransactions[Budget.id] && !Budget.category?.transactions?.length) {
+                    <c-container [fluid]="true">
+                        <c-row>
+                            <c-col class="text-center text-danger fst-italic pt-3 pb-3">
+                                {{ t('No matching transactions were found.') }}
+                            </c-col>
+                        </c-row>
+                    </c-container>
+                }
+            </c-card>
+        }
+    }
+</ng-container>

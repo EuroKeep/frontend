@@ -1,0 +1,40 @@
+<ng-container *transloco="let t">
+
+    @if (label().length) {
+        <label cLabel [for]="name()">
+            {{ label() }}
+            @if (required()) {
+                <sup class="text-danger">*</sup>
+            }
+        </label>
+    }
+
+    <c-row>
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="m-0 pR-0">
+            <nox-input
+                    [required]="required()"
+                    [id]="name() + 'Number'"
+                    [name]="name() + 'Number'"
+                    [type]="'number'"
+                    [(ngModel)]="intervalNumber"
+                    (change)="changeSignal()"
+                    (onChange)="changeSignal()"
+            />
+        </c-col>
+        <c-col [xs]="8" [sm]="8" [md]="8" [lg]="8" [xl]="8" [xxl]="8" class="m-0 pL-0">
+            <nox-select
+                    [required]="required()"
+                    [id]="name() + 'Character'"
+                    [name]="name() + 'Character'"
+                    (change)="changeSignal()"
+                    (onChange)="changeSignal()"
+                    [(value)]="intervalCharacter"
+                    [Items]="intervalCharacters"
+            />
+        </c-col>
+    </c-row>
+    <validation-feedback
+            [errors]="errors()"
+            [errorField]="name()"
+    />
+</ng-container>

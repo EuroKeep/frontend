@@ -1,0 +1,14 @@
+<ng-container *transloco="let t">
+    <c-row class="mb-1 mt-1">
+        <c-col [xs]="8" class="ellipsis">
+            {{ Transaction().category?.emoji }}
+            {{ Transaction().comment }}
+        </c-col>
+        <c-col [xs]="4" class="text-end">
+            <balance
+                    [Animate]="false"
+                    [Currency]="Currency()"
+                    [Value]="Transaction().balance_value"/>
+        </c-col>
+    </c-row>
+</ng-container>

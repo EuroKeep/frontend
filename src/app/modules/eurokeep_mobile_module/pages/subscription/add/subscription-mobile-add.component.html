@@ -1,0 +1,150 @@
+<ng-container *transloco="let t">
+    <form cForm (ngSubmit)="add()">
+        <c-row class="mt-3">
+            <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+                @if (this.AuthenticationService.getUser().settings.helpDisplay && this.helpUrl.length > 0) {
+                    <a cButton size="sm" class="ripple" target="_blank" [href]="this.helpUrl" color="info">
+                        <fa-icon [icon]="['fas', 'info-circle']" /> {{ t('Get help') }}
+                    </a>
+                }
+                <button cButton size="sm" class="ripple" [routerLink]="['/', 'mobile', 'subscription', 'list']" color="dark">
+                    <fa-icon [icon]="['fas', 'arrow-left']"/> {{ t('Back') }}
+                </button>
+            </c-col>
+            <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-center">
+                <h5>{{t('Add Subscription')}}</h5>
+            </c-col>
+            <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+                <c-button-group>
+                    <button cButton size="sm" class="ripple" [nSpamsaveButton]="IsWorking" color="success" type="submit">
+                        {{ t('Save') }} <fa-icon [icon]="['fas', 'arrow-right']"/>
+                    </button>
+                </c-button-group>
+            </c-col>
+        </c-row>
+        <c-card class="mt-3">
+            <c-card-body>
+                <c-row>
+                    <c-col>
+                        <nox-input
+                                [errors]="errors"
+                                [(value)]="post.name"
+                                [type]="'text'"
+                                [name]="'name'"
+                                [label]="t('Title')"
+                        />
+                    </c-col>
+                    <c-col>
+                        <logo-upload #LogoUpload [Item]="post" [LogoService]="SubscriptionService" />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-input
+                                [errors]="errors"
+                                [(value)]="post.balance_value"
+                                [type]="'number'"
+                                [name]="'balance_value'"
+                                [label]="t('Value')"
+                        />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-interval-input
+                                [errors]="errors"
+                                [(value)]="post.interval"
+                                [type]="'text'"
+                                [name]="'interval'"
+                                [label]="t('Interval')"
+                        />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-input
+                                [errors]="errors"
+                                [(value)]="post.start"
+                                [type]="'date'"
+                                [name]="'start'"
+                                [label]="t('Start')"
+                        />
+                    </c-col>
+                    <c-col>
+
+                        <nox-input
+                                [errors]="errors"
+                                [(value)]="post.end"
+                                [type]="'date'"
+                                [name]="'end'"
+                                [label]="t('End')"
+                        />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-select [errors]="errors"
+                                    [(value)]="post.paymentmethod_id"
+                                    [name]="'paymentmethod_id'"
+                                    [Items]="Paymentmethods"
+                                    [label]="t('Payment Method')"
+                                    [placeholder]="t('Please select a payment method.')"
+                                    name="paymentmethod_id"
+                        />
+                    </c-col>
+
+                    <c-col>
+
+                        <nox-select [errors]="errors"
+                                    [(value)]="post.account_id"
+                                    [name]="'account_id'"
+                                    [Items]="Accounts"
+                                    [label]="t('Account')"
+                                    [placeholder]="t('Please select an account.')"
+                                    name="account_id"
+                        />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-select [errors]="errors"
+                                    [(value)]="post.category_id"
+                                    [name]="'category_id'"
+                                    [Items]="Categories"
+                                    [label]="t('Category')"
+                                    [placeholder]="t('Please select a category.')"
+                                    name="category_id"
+                        />
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col>
+                        <nox-interval-input
+                                [errors]="errors"
+                                [(value)]="post.noticeperiod"
+                                [type]="'text'"
+                                [name]="'noticeperiod'"
+                                [label]="t('Notice period')"
+                        />
+                    </c-col>
+                    <c-col>
+                        <nox-interval-input
+                                [errors]="errors"
+                                [(value)]="post.term"
+                                [type]="'text'"
+                                [name]="'term'"
+                                [label]="t('Term')"
+                        />
+                    </c-col>
+                </c-row>
+                <nox-input
+                        [errors]="errors"
+                        [(value)]="post.description"
+                        [type]="'text'"
+                        [name]="'description'"
+                        [label]="t('Description')"
+                />
+            </c-card-body>
+        </c-card>
+    </form>
+</ng-container>

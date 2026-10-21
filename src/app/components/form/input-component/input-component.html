@@ -1,0 +1,25 @@
+<ng-container *transloco="let t">
+    <div class="mb-3 align-middle">
+        @if (label().length) {
+            <label cLabel [for]="name()">
+                {{ label() }}
+                @if (required()) {
+                    <sup class="text-danger">*</sup>
+                }
+            </label>
+        }
+        <input cFormControl
+               [required]="required()"
+               [id]="name()"
+               [type]="type()"
+               [name]="name()"
+               [(ngModel)]="value"
+               [placeholder]="placeholder()"
+               (change)="changeSignal()"
+               />
+        <validation-feedback
+                [errors]="errors()"
+                [errorField]="name()"
+        />
+    </div>
+</ng-container>

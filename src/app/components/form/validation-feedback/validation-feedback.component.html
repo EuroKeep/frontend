@@ -1,0 +1,7 @@
+<ng-container *transloco="let t">
+    @if (hasError) {
+        @for (errorMessage of errorMessages; track $index) {
+            <div>{{ errorMessage }}</div>
+        }
+    }
+</ng-container>

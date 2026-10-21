@@ -1,0 +1,28 @@
+<ng-container *transloco="let t">
+    <div class="mb-3 align-middle">
+        @if (label()) {
+            <label cLabel [for]="name()">
+                {{ label() }}
+                @if (required()) {
+                    <sup class="text-danger">*</sup>
+                }
+            </label>
+        }
+        <c-input-group class="mb-3">
+            <span cInputGroupText>{{ Currency() }}</span>
+            <input cFormControl
+                   required
+                   [class]="class()"
+                   [id]="name()"
+                   [type]="type()"
+                   [name]="name()"
+                   [(ngModel)]="value"
+                   (change)="changeSignal()"
+            />
+        </c-input-group>
+        <validation-feedback
+                [errors]="errors()"
+                [errorField]="name()"
+        />
+    </div>
+</ng-container>

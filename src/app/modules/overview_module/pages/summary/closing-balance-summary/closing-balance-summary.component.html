@@ -1,0 +1,57 @@
+<ng-container *transloco="let t">
+    <date-browser
+            [Start]="params.start"
+            [End]="params.end"
+            (changed)="index()"
+            [BlockIncrease]="true"
+    />
+    @if (ClosingBalanceSummary) {
+        <table bordered cTable class="mt-3 mb-0 table table-fit" hover striped matSort>
+            <thead>
+            <tr>
+                <th width="200"></th>
+                @for (Account of ClosingBalanceSummary.Accounts; track Account.id) {
+                    <th class="text-center"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <h1>{{ Account.emoji }}</h1>
+                    </th>
+                }
+            </tr>
+            <tr>
+                <th></th>
+                @for (Account of ClosingBalanceSummary.Accounts; track Account.id) {
+                    <th class="text-center"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <h6>{{ Account.name }}</h6>
+                    </th>
+                }
+            </tr>
+
+
+            </thead>
+            <tbody>
+
+                @for (ClosingBalance of ClosingBalanceSummary.ClosingBalances; track ClosingBalance.year + '-' + ClosingBalance.month) {
+                    <tr>
+                        <td>
+                            {{ monthNames[ClosingBalance.month - 1] }} {{ ClosingBalance.year }}
+                        </td>
+                        @for (Account of ClosingBalanceSummary.Accounts; track Account.id) {
+                            @if (ClosingBalance[Account.id]) {
+                                <td class="text-end">
+                                    <balance [Animate]="false" [Currency]="Account.balance_currency"
+                                             [Value]="ClosingBalance[Account.id]"/>
+                                </td>
+                            }
+                            @else {
+                                <td>
+
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</ng-container>

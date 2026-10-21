@@ -1,0 +1,23 @@
+<ng-container *transloco="let t">
+    <c-card class="menuItem cursor-pointer mt-3"
+            [routerLink]="['/', 'mobile', 'transaction', 'edit', Transaction().id]">
+        <c-card-body class="p-1">
+            <c-row class="mb-1 mt-1">
+                <c-col [xs]="8" class="ellipsis">
+                    <small class="text-muted">
+                        {{ formatDate(Transaction().created) }}
+                    </small>
+                    <br />
+                    {{ Transaction().category?.emoji }}
+                    {{ Transaction().comment }}
+                </c-col>
+                <c-col [xs]="4" class="text-end">
+                    <balance
+                            [Animate]="false"
+                            [Currency]="Currency()"
+                            [Value]="Transaction().balance_value"/>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+</ng-container>

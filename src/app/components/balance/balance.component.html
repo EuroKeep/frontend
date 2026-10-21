@@ -1,0 +1,9 @@
+<ng-container *transloco="let t">
+    @if (this.DiscreteService.isDiscrete$$.getValue()) {
+        <span class="currency text-muted hefty-blur">
+            ·····,··X
+        </span>
+    } @else {
+        <span [class]="class()" [attr.data-value]="display()">{{ display() }}</span>
+    }
+</ng-container>

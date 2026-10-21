@@ -1,0 +1,19 @@
+
+
+.paymentmethod-image {
+    display: block;
+    height: 2rem;
+    width: auto;
+    max-width: 3rem;
+    object-fit: contain;
+    border: 1px solid var(--cui-primary);
+    border-radius: 4px;
+}
+
+.paymentmethod-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    color: var(--cui-secondary-color, #6b7785);
+}

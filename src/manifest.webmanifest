@@ -1,0 +1,17 @@
+{
+    "name": "EuroKeep",
+    "short_name": "EuroKeep",
+    "id": "/a/",
+    "start_url": "/a/mobile/home",
+    "scope": "/a/",
+    "display": "standalone",
+    "theme_color": "#003399",
+    "background_color": "#0d1020",
+    "icons": [
+        {
+            "src": "/a/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ]
+}

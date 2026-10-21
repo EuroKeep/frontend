@@ -1,0 +1,16 @@
+<ng-container *transloco="let t">
+    <button
+            cButton
+            class="ripple"
+            color="info"
+            type="button"
+            [disabled]="IsWorking()"
+            (click)="clicked.emit()">
+        @if (IsWorking()) {
+            <fa-icon [icon]="['fas', 'spinner']" animation="spin"></fa-icon>
+        } @else {
+            <fa-icon [icon]="['fas', 'wand-sparkles']"></fa-icon>
+        }
+        {{ t('Save') }}
+    </button>
+</ng-container>

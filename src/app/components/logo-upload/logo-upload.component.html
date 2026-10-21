@@ -1,0 +1,44 @@
+<ng-container *transloco="let t">
+    <div #dropzone
+         class="logo-dropzone"
+         [class.logo-dropzone-error]="errorMessage"
+         role="button"
+         tabindex="0"
+         [attr.aria-label]="t('Upload logo')"
+         [title]="t('Upload logo')"
+         (keydown.enter)="openFilePicker($event)"
+         (keydown.space)="openFilePicker($event)">
+        <div class="dz-message logo-dropzone-content">
+            @if (previewUrl) {
+                <img class="logo-dropzone-image" [src]="previewUrl" [alt]="t('Logo preview')"/>
+            } @else if (hasLogo()) {
+                <img class="logo-dropzone-image"
+                     [src]="LogoService().logoUrl(Item())"
+                     [alt]="t('{{Name}} logo', {Name: Item().name})"/>
+            } @else {
+                <fa-icon class="logo-dropzone-icon" [icon]="['fas', 'image']"/>
+            }
+            <small class="logo-dropzone-hint">
+                @if (progress !== null) {
+                    {{ t('Uploading…') }} {{ progress }}%
+                } @else if (hasLogo() || previewUrl) {
+                    {{ t('Drop or tap to replace') }}
+                } @else {
+                    {{ t('Drop or tap to add a logo') }}
+                }
+            </small>
+        </div>
+        @if (progress !== null) {
+            <div class="logo-dropzone-progress" [style.width.%]="progress"></div>
+        }
+    </div>
+    @if ((hasLogo() || previewUrl) && progress === null) {
+        <div class="text-center mt-1">
+            <button cButton size="sm" variant="ghost" color="danger" type="button" class="ripple"
+                    [disabled]="isDeleting"
+                    (click)="deleteLogo()">
+                <fa-icon [icon]="['fas', 'trash']"/> {{ t('Remove logo') }}
+            </button>
+        </div>
+    }
+</ng-container>

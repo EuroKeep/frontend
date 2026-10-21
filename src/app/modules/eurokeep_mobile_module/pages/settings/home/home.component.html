@@ -1,0 +1,24 @@
+<ng-container *transloco="let t">
+    <c-row class="mt-3">
+        <c-col class="text-center">
+            <h5>{{ t('Settings') }}</h5>
+        </c-col>
+    </c-row>
+    @for (Entry of Entries; track Entry.label) {
+        <c-card class="menuItem cursor-pointer mt-3" [routerLink]="Entry.url">
+            <c-card-body class="p-2">
+                <c-row class="align-items-center">
+                    <c-col [xs]="'auto'">
+                        <fa-icon [icon]="['fas', Entry.icon]" [fixedWidth]="true" size="lg" class="text-primary"/>
+                    </c-col>
+                    <c-col>
+                        {{ t(Entry.label) }}
+                    </c-col>
+                    <c-col [xs]="'auto'" class="text-end">
+                        <fa-icon [icon]="['fas', 'chevron-right']" class="text-secondary"/>
+                    </c-col>
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+</ng-container>

@@ -1,0 +1,79 @@
+<ng-container *transloco="let t">
+    <date-browser
+            [Start]="params.start"
+            [End]="params.end"
+            (changed)="onChange($event)"
+            [BlockIncrease]="true"
+    />
+    @if (Summary) {
+        <table bordered cTable class="mt-3 mb-0 table table-fit" hover striped matSort>
+            <thead>
+            <tr>
+                <th width="100"></th>
+                <th></th>
+                @for (Account of Summary.Accounts; track Account.id) {
+                    <th width="200" class="text-center"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <h1>{{ Account.emoji }}</h1>
+                    </th>
+                }
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                @for (Account of Summary.Accounts; track Account.id) {
+                    <th class="text-center"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <h6>{{ Account.name }}</h6>
+                    </th>
+                }
+            </tr>
+            <tr>
+                <th></th>
+                <th class="text-end">{{ t('Closing Balance') }}</th>
+                @for (Account of Summary.Accounts; track Account.id) {
+                    <th class="text-end"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <balance [Animate]="true" [Currency]="Account.balance_currency" [Value]="Account.balance_value"/>
+                    </th>
+                }
+            </tr>
+            <tr>
+                <th></th>
+                <td class="text-end">{{ t('Opening Balance') }}</td>
+                @for (Account of Summary.Accounts; track Account.id) {
+                    <td class="text-end"
+                        [routerLink]="['/', 'mobile', 'account', 'edit', Account.id]">
+                        <balance [Animate]="true" [Currency]="Account.balance_currency" [Value]="Account.balance_value_closing" />
+                    </td>
+                }
+            </tr>
+
+
+            </thead>
+            <tbody>
+
+                @for (Transaction of Summary.Transactions; track Transaction.id) {
+                    <tr
+                            [routerLink]="['/', 'mobile', 'transaction', 'edit', Transaction.id]">
+                        <td>
+                            {{ formatDate(Transaction.created) }}
+                        </td>
+                        <td>
+                            {{ Transaction.category?.emoji }}
+                            {{ Transaction.comment }}
+                        </td>
+                        @for (Account of Summary.Accounts; track Account.id) {
+                            <td class="text-end">
+                                @if (Transaction.account_id === Account.id) {
+                                    <balance [Animate]="false" [Currency]="Account.balance_currency"
+                                             [Value]="Transaction.balance_value || 0"/>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</ng-container>

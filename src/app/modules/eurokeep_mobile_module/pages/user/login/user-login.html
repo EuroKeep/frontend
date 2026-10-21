@@ -1,0 +1,69 @@
+<ng-container *transloco="let t">
+    <div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+        <c-container>
+            <c-row class="row justify-content-center">
+                <c-col xs="12" md="8" lg="6" xl="4" class="p-5 login-side-right">
+                    <form (submit)="login()" id="login">
+                        <c-card>
+                            <c-card-body>
+                                <div class="text-center mb-3">
+                                    <img [alt]="t('EuroKeep logo')" [src]="'/logo.svg'" width="33%"/>
+                                    <br/>
+                                    <em>
+                                        Your Money - Your Data
+                                    </em>
+                                </div>
+                                <c-input-group class="mb-3">
+                                    <span cInputGroupText id="username">
+                                        <fa-icon [icon]="['fas', 'user']"/>
+                                    </span>
+                                    <input [(ngModel)]="parameters.username"
+                                           [placeholder]="t('Email')"
+                                           id="username"
+                                           name="username"
+                                           aria-describedby="username"
+                                           aria-label="Email"
+                                           cFormControl
+                                    />
+                                </c-input-group>
+                                <c-input-group>
+                                    <span cInputGroupText id="basic-addon1">
+                                        <fa-icon [icon]="['fas', 'key']"/>
+                                    </span>
+                                    <input [(ngModel)]="parameters.password"
+                                           [placeholder]="t('Password')"
+                                           id="password"
+                                           name="password"
+                                           type="password"
+                                           aria-describedby="basic-addon1"
+                                           aria-label="password"
+                                           cFormControl
+                                    />
+                                </c-input-group>
+                            </c-card-body>
+                            <c-card-footer class="text-end">
+                                <a href="https://eurokeep.io" cButton size="sm" color="dark">
+                                    <fa-icon [icon]="['fas', 'globe']"/>
+                                </a>
+                                <a href="https://docs.eurokeep.io" cButton size="sm" color="dark">
+                                    <fa-icon [icon]="['fas', 'book']"/>
+                                </a>
+                                <a href="https://github.com/EuroKeep" cButton size="sm" color="dark">
+                                    <fa-icon [icon]="['fab', 'github-alt']"/>
+                                </a>
+                                @if (enable_registration) {
+                                    <button size="sm" [showSpinner]="false" [nSpamsaveButton]="this.IsWorking" cButton
+                                            color="warning" (click)="register()">{{ t('Create Account') }}
+                                    </button>
+                                }
+                                <button size="sm" [showSpinner]="false" [nSpamsaveButton]="this.IsWorking" cButton
+                                        color="success" (click)="login()">{{ t('Log in') }}
+                                </button>
+                            </c-card-footer>
+                        </c-card>
+                    </form>
+                </c-col>
+            </c-row>
+        </c-container>
+    </div>
+</ng-container>

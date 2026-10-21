@@ -1,0 +1,65 @@
+<ng-container *transloco="let t">
+
+    <p-toast>
+        <ng-template #message let-message>
+            <div class="p-toast-message-content"
+                 [style.cursor]="message.data?.url ? 'pointer' : null"
+                 (click)="this.NotyService.handleToastClick(message)">
+                <div class="p-toast-message-text">
+                    @if (message.summary) {
+                        <span class="p-toast-summary">{{ message.summary }}</span>
+                    }
+                    <div class="p-toast-detail" [innerHTML]="message.detail"></div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+
+    @if (( this.LayoutService.layout$ | async ) == Layouts.login) {
+        <router-outlet/>
+    }
+    @if (( this.LayoutService.layout$ | async ) == Layouts.mobile) {
+        <div class="main-container">
+            <div id="right" class="column app-frame" style="width:100%;">
+                <div class="bottom pb-3">
+                    <coreui-header />
+                    <c-container [fluid]="true" id="mainContentContainer">
+                        <router-outlet/>
+                    </c-container>
+                </div>
+                <c-row class="p-0 m-0" style="border-top:1px solid rgba(255,255,255,0.2);">
+                    <c-col [xs]="2" [routerLink]="['/mobile/home']" class="text-center">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'home']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                    <c-col [xs]="2" [routerLink]="['/', 'mobile']" class="text-center">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'coins']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                    <c-col [xs]="2" [routerLink]="['/mobile/budget/list']" class="text-center">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'wallet']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                    <c-col [xs]="2" [routerLink]="['/mobile/saving/list']" class="text-center">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'piggy-bank']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                    <c-col [xs]="2" class="text-center" [routerLink]="['/mobile/subscription/list']">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'arrows-rotate']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                    <c-col [xs]="2" [routerLink]="['/mobile/analyzer/month']" class="text-center">
+                        <button cButton color="default">
+                            <fa-icon [icon]="['fas', 'pie-chart']" size="2x"></fa-icon>
+                        </button>
+                    </c-col>
+                </c-row>
+            </div>
+        </div>
+    }
+</ng-container>

@@ -1,0 +1,21 @@
+<ng-container *transloco="let t">
+    <c-card class="mt-3">
+        <c-card-body class="p-1">
+            <c-row>
+                <c-col [xs]="2" (click)="decrease()">
+                    <button cButton size="sm">
+                        <fa-icon [icon]="['fas', 'chevron-left']"/>
+                    </button>
+                </c-col>
+                <c-col [xs]="8" class="text-center">
+                    {{ monthNames[Start().getUTCMonth()] }} {{ Start().getUTCFullYear() }}
+                </c-col>
+                <c-col [xs]="2" class="text-end" (click)="increase()">
+                    <button cButton size="sm" [disabled]="_IncrementBlocked">
+                        <fa-icon [icon]="['fas', 'chevron-right']"/>
+                    </button>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+</ng-container>

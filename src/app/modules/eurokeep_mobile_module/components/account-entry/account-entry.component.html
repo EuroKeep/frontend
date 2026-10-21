@@ -1,0 +1,47 @@
+<ng-container *transloco="let t">
+    <c-card class="menuItem cursor-pointer mt-3">
+        <c-card-body class="p-1">
+        @if (EditUrl().length) {
+            <c-badge [routerLink]="EditUrl()" color="primary" position="top-end" shape="rounded-pill">
+                <fa-icon [icon]="['fas', 'edit']"/>
+            </c-badge>
+        }
+            <c-badge (click)="toggleFavourite.emit(Account())" position="top-start" shape="rounded-start">
+                @if (isFavourite()) {
+
+                    <fa-icon [size]="'lg'" [icon]="['fas', 'star']" class="text-warning-glow"/>
+                } @else {
+
+                    <fa-icon [size]="'lg'" [icon]="['fas', 'star']" class="text-secondary"/>
+                }
+            </c-badge>
+            <div
+                    [routerLink]="['/', 'mobile', 'transaction', 'stream', Account().id]">
+
+                <c-row>
+                    <c-col [xs]="7">
+                        {{ Account().emoji }}
+                        {{ Account().name }}
+                    </c-col>
+                    <c-col [xs]="5" class="text-end">
+                        <balance
+                                [Currency]="Account().balance_currency"
+                                [Value]="Account().balance_value"/>
+                    </c-col>
+                </c-row>
+                <c-row>
+                    <c-col [xs]="12">
+                        <small class="text-muted" nIsDiscrete>
+                            @if (Account().iban.length && ShowIban()) {
+                                <clippy [data]="Account().iban">
+                                    {{ Account().iban }}
+                                </clippy>&nbsp;
+                            }
+                        </small>
+                        &nbsp;
+                    </c-col>
+                </c-row>
+            </div>
+        </c-card-body>
+    </c-card>
+</ng-container>

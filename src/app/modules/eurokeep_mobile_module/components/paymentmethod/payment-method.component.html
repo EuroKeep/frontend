@@ -1,0 +1,13 @@
+<ng-container *transloco="let t">
+    @if (PaymentmethodService.hasLogo(Paymentmethod())) {
+        <img
+            class="paymentmethod-image"
+            [src]="PaymentmethodService.logoUrl(Paymentmethod())"
+            [alt]="Paymentmethod().name"
+            [title]="t('Payment method: ') + Paymentmethod().name" />
+    } @else {
+        <span class="paymentmethod-image paymentmethod-placeholder" [title]="t('Payment method: ') + Paymentmethod().name">
+            <fa-icon [icon]="['fas', 'credit-card']"/>
+        </span>
+    }
+</ng-container>

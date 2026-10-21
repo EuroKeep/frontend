@@ -1,0 +1,23 @@
+<ng-container *transloco="let t">
+    <a [routerLink]="['/', 'mobile', 'analyzer', 'transactions']">{{ t('Transactions') }}</a>
+    <date-browser
+            [Start]="params.start"
+            [End]="params.end"
+            (changed)="onChange($event)"
+            [BlockIncrease]="true"
+    />
+
+    <div class="analyzer-month-chart-card">
+        @if (categoryId !== undefined) {
+            <button type="button" class="analyzer-month-chart-back" (click)="onBack()">
+                &larr; {{ t('Back') }}
+            </button>
+        }
+        <h5 class="analyzer-month-chart-title">{{ t('Spending by category') }}</h5>
+        <div #categoryChartRef class="analyzer-month-chart"></div>
+    </div>
+
+    <transaction-list [Transactions]="Transactions || []" />
+
+
+</ng-container>

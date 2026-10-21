@@ -1,0 +1,42 @@
+<ng-container *transloco="let t">
+    <div class="mb-3">
+        @if (label()) {
+            <label cLabel [for]="name()">
+                {{ label() }}
+                @if (required()) {
+                    <sup class="text-danger">*</sup>
+                }
+            </label>
+        }
+        <ng-select #noxSelect
+                   [items]="Items()"
+                   bindLabel="name"
+                   bindValue="id"
+                   [name]="name()"
+                   [placeholder]="placeholder()"
+                   (change)="changeSignal()"
+                   [virtualScroll]="true"
+                   [(ngModel)]="value">
+            <ng-template ng-option-tmp let-category="item" let-search="searchTerm">
+                <div [ngOptionHighlight]="search">{{ category.emoji }} {{ category.name }}</div>
+            </ng-template>
+        </ng-select>
+        @if (required()) {
+            <!-- ng-select has no native constraint-validation equivalent; this invisible
+                 proxy makes "required" actually block form submission like nox-input does. -->
+            <input type="text"
+                   class="nox-select-required-proxy"
+                   tabindex="-1"
+                   autocomplete="off"
+                   aria-hidden="true"
+                   [value]="value() ? 'x' : ''"
+                   required
+                   (focus)="noxSelect.focus()"
+            />
+        }
+        <validation-feedback
+                [errors]="errors()"
+                [errorField]="name()"
+        />
+    </div>
+</ng-container>

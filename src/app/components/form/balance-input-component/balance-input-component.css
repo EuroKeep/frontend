@@ -1,0 +1,59 @@
+.currency { text-align:right; font-family:"Monospaced", "Courier New" }
+
+/* EUROPE */
+.currency.eur:after { content: '€'; } /* 🇪🇺 EUROZONE */
+.currency.gbp:before { content: '£';  } /* 🇬🇧 UNITED KINGDOM */
+.currency.chf:after { content: 'CHF'; } /* 🇨🇭 SWITZERLAND */
+.currency.sek:after { content: 'kr'; } /* 🇸🇪 SWEDEN */
+.currency.nok:after { content: 'kr'; } /* 🇳🇴 NORWAY */
+.currency.dkk:after { content: 'kr'; } /* 🇩🇰 DENMARK */
+.currency.isk:after { content: 'kr'; } /* 🇮🇸 ICELAND */
+.currency.pln:after { content: 'zł'; } /* 🇵🇱 POLAND */
+.currency.czk:after { content: 'Kč'; } /* 🇨🇿 CZECH REPUBLIC */
+.currency.huf:after { content: 'Ft'; } /* 🇭🇺 HUNGARY */
+.currency.ron:after { content: 'lei'; } /* 🇷🇴 ROMANIA */
+.currency.bgn:after { content: 'лв'; } /* 🇧🇬 BULGARIA */
+.currency.uah:after { content: '₴'; } /* 🇺🇦 UKRAINE */
+.currency.try:after { content: '₺'; } /* 🇹🇷 TURKEY */
+
+/* DOLLAR-BASED */
+.currency.usd:before { content: '$US';  } /* 🇺🇸 UNITED STATES */
+.currency.cad:before { content: '$CAD';  } /* 🇨🇦 CANADA */
+.currency.aud:before { content: '$AUD';  } /* 🇦🇺 AUSTRALIA */
+.currency.nzd:before { content: '$NZD';  } /* 🇳🇿 NEW ZEALAND */
+
+/* ASIA */
+.currency.jpy:before { content: '¥';  } /* 🇯🇵 JAPAN */
+.currency.cny:before { content: '¥';  } /* 🇨🇳 CHINA */
+.currency.krw:before { content: '₩';  } /* 🇰🇷 SOUTH KOREA */
+.currency.inr:before { content: '₹';  } /* 🇮🇳 INDIA */
+.currency.php:before { content: '₱';  } /* 🇵🇭 PHILIPPINES */
+.currency.thb:before { content: '฿';  } /* 🇹🇭 THAILAND */
+
+/* AMERICAS */
+.currency.mxn:before { content: '$';  } /* 🇲🇽 MEXICO */
+.currency.brl:before { content: 'R$';  } /* 🇧🇷 BRAZIL */
+.currency.ars:before { content: '$';  } /* 🇦🇷 ARGENTINA */
+.currency.clp:before { content: '$';  } /* 🇨🇱 CHILE */
+.currency.cop:before { content: '$';  } /* 🇨🇴 COLOMBIA */
+
+/* MIDDLE EAST / AFRICA */
+.currency.ils:after { content: '₪'; } /* 🇮🇱 ISRAEL */
+.currency.aed:after { content: 'د.إ'; } /* 🇦🇪 UNITED ARAB EMIRATES */
+.currency.sar:after { content: '﷼'; } /* 🇸🇦 SAUDI ARABIA */
+.currency.egp:after { content: '£'; } /* 🇪🇬 EGYPT */
+.currency.zar:after { content: 'R'; } /* 🇿🇦 SOUTH AFRICA */
+.currency.ngn:after { content: '₦'; } /* 🇳🇬 NIGERIA */
+.currency.kes:after { content: 'KSh'; } /* 🇰🇪 KENYA */
+
+/* ASIA / PACIFIC */
+.currency.idr:after { content: 'Rp'; } /* 🇮🇩 INDONESIA */
+.currency.vnd:after { content: '₫'; } /* 🇻🇳 VIETNAM */
+.currency.myr:after { content: 'RM'; } /* 🇲🇾 MALAYSIA */
+.currency.twd:after { content: 'NT$'; } /* 🇹🇼 TAIWAN */
+.currency.pkr:after { content: '₨'; } /* 🇵🇰 PAKISTAN */
+.currency.bdt:after { content: '৳'; } /* 🇧🇩 BANGLADESH */
+.currency.lkr:after { content: 'Rs'; } /* 🇱🇰 SRI LANKA */
+
+/* CRYPTO */
+.currency.btc:after { content: '₿'; } /* 🇱🇰 BITCOIN */

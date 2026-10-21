@@ -1,0 +1,95 @@
+<ng-container *transloco="let t">
+    <c-row class="mt-3">
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4">
+            @if (this.AuthenticationService.getUser().settings.helpDisplay && this.helpUrl.length > 0) {
+                <a cButton size="sm" class="ripple" target="_blank" [href]="this.helpUrl" color="info">
+                    <fa-icon [icon]="['fas', 'info-circle']" /> {{ t('Get help') }}
+                </a>
+            }
+        </c-col>
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-center">
+            <h5>{{t('Subscriptions')}}</h5>
+        </c-col>
+        <c-col [xs]="4" [sm]="4" [md]="4" [lg]="4" [xl]="4" [xxl]="4" class="text-end">
+            <c-button-group>
+                <button cButton size="sm" class="ripple" [routerLink]="['/', 'mobile', 'subscription', 'add']" color="success">
+                    {{ t('Create') }}
+                    <fa-icon [icon]="['fas', 'plus']"/>
+                </button>
+            </c-button-group>
+        </c-col>
+    </c-row>
+    @if (Subscriptions) {
+        @if (!Subscriptions.length) {
+            <c-row>
+                <c-col class="text-center text-danger fst-italic pt-3 pb-3">
+                    {{ t('Begin by adding a subscription.') }}
+                </c-col>
+            </c-row>
+        }
+        @if (Subscriptions.length) {
+            @for (Subscription of Subscriptions; track Subscription.id) {
+                <c-card class="menuItem mt-3 p-0 cursor-pointer" [routerLink]="['/', 'mobile', 'subscription', 'edit', Subscription.id]"
+                        [title]="t('Edit subscription {{Name}}', {Name: Subscription.name})">
+                    <c-card-body class="p-1">
+                        <c-row class="align-items-center">
+                            <c-col [xs]="1" class="text-center d-none d-sm-block">
+                                @if (Subscription.logo) {
+                                    <subscription-image [SubscriptionItem]="Subscription" />
+                                } @else {
+                                    <span class="fs-3" role="img"
+                                          [attr.aria-label]="t('Category') + ': ' + Subscription.category?.name"
+                                          [title]="t('Category') + ': ' + Subscription.category?.name">
+                                        {{ Subscription.category?.emoji }}
+                                    </span>
+                                }
+                            </c-col>
+                            <c-col [xs]="8" [sm]="3">
+                                {{ Subscription.name }}
+                            </c-col>
+                            <c-col [xs]="2" class="text-center d-none d-sm-block">
+                                @if (Subscription.interval) {
+                                    <small class="text-muted" [title]="t('Billing interval')">
+                                        <fa-icon [icon]="['fas', 'refresh']"/>
+                                        {{ formatInterval(Subscription.interval) }}
+                                    </small>
+                                }
+                            </c-col>
+                            <c-col [xs]="2" class="text-center d-none d-sm-block">
+                                @let nextDue = nextDueDate(Subscription);
+                                @if (nextDue) {
+                                    <small class="text-muted" [title]="t('Next due date')">
+                                        <fa-icon [icon]="['fas', 'calendar']"/>
+                                        {{ formatDate(nextDue) }}
+                                    </small>
+                                }
+                            </c-col>
+                            <c-col [xs]="4" [sm]="3" class="text-end">
+                                <span [title]="t('Amount per billing')">
+                                    <b>
+                                        <balance
+                                            [Currency]="Currency.eur"
+                                            [Value]="Subscription.balance_value"/></b>
+                                </span>
+                                <br/>&nbsp;
+                                @let annual = annualCost(Subscription);
+                                @if (annual !== null && annual != Subscription.balance_value) {
+                                    <small style="opacity: 0.5" [title]="t('Annual cost')">
+                                        <balance
+                                                [Currency]="Currency.eur"
+                                                [Value]="annual"/>
+                                    </small>
+                                }
+                            </c-col>
+                            <c-col [xs]="1" class="text-center d-none d-sm-block">
+                                @if (Subscription.payment_method) {
+                                    <paymentmethod [Paymentmethod]="Subscription.payment_method"/>
+                                }
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            }
+        }
+    }
+</ng-container>

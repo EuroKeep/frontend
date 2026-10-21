@@ -1,0 +1,75 @@
+<ng-container *transloco="let t">
+    <date-browser
+            [Start]="post.start"
+            [End]="post.end"
+            [BlockIncrease]="true"
+            (changed)="search()"
+    />
+    <nox-input
+            [errors]="errors"
+            [(value)]="post.comment"
+            [type]="'text'"
+            [name]="'comment'"
+            [label]="t('Comment')"
+            [required]="true"
+    />
+    <button cButton size="sm" class="ripple" type="button" color="primary" (click)="search()">
+        {{ t('Search') }}
+    </button>
+    <c-row class="mt-3">
+        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+            <c-card>
+                <c-card-header>
+                    <b>
+                        {{ t('Revenues') }}
+                    </b>
+                </c-card-header>
+                <c-card-body class="p-1 text-end">
+                    <h6>
+                        <strong>
+                            <balance [Value]="revenues" [Currency]="Currency.eur"/>
+                        </strong>
+                    </h6>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+            <c-card>
+                <c-card-header>
+                    <b>
+                        {{ t('Total') }}
+                    </b>
+                </c-card-header>
+                <c-card-body class="p-1 text-end">
+                    <h6>
+                        <strong>
+                            <balance [Value]="total" [Currency]="Currency.eur" />
+                        </strong>
+                    </h6>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col xl="4" lg="4" md="4" sm="4" xs="4">
+            <c-card>
+                <c-card-header>
+                    <b>
+                        {{ t('Expenses') }}
+                    </b>
+                </c-card-header>
+                <c-card-body class="p-1 text-end">
+                    <h6>
+                        <strong>
+                            <balance [Value]="expenses" [Currency]="Currency.eur" />
+                        </strong>
+                    </h6>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <transaction-list [Transactions]="Transactions" />
+
+    <p>
+
+    </p>
+</ng-container>

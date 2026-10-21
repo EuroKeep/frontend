@@ -1,0 +1,119 @@
+/* This file can be used to adjust the global CoreUI layout.
+ * For example of you want to add padding or margin classes
+ */
+
+.header-sticky {
+    box-shadow: 0 0 28px 0 rgba(11, 81, 197, 0.13);
+}
+
+.width-15 {
+    width: 15px;
+}
+
+.width-30 {
+    width: 30px;
+}
+
+.width-50 {
+    width: 50px;
+}
+
+.width-90 {
+    width: 90px;
+}
+
+.width-130 {
+    width: 130px;
+}
+
+.width-150 {
+    width: 150px;
+}
+
+.width-160 {
+    width: 160px;
+}
+
+.width-240 {
+    width: 240px;
+}
+
+.tableStatewidth {
+    min-width: 155px;
+}
+
+.state-button-small {
+    padding: 0 2px;
+    font-size: 12px;
+}
+
+.editItemWidth {
+    min-width: 52px;
+    max-width: 52px;
+}
+
+.border-dashed {
+    border-style: dashed;
+}
+
+
+.input-group .ng-select, input-group .ng-select-multiple {
+    display: flex;
+    flex: 1;
+}
+
+.input-group .ng-select.ng-select-single .ng-select-container, .input-group .ng-select-multiple .ng-select-container {
+    margin-left: calc(var(--cui-border-width) * -1);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.ng-option-label {
+    color: dodgerblue;
+}
+
+.disabled-area {
+    -webkit-filter: opacity(.5);
+    filter: opacity(.5);
+    pointer-events: none;
+}
+
+.pos-top {
+    top: 0;
+}
+
+.pos-left {
+    left: 0;
+}
+
+.pos-right {
+    right: 0;
+}
+
+.pos-bottom {
+    bottom: 0;
+}
+
+
+.border-primary-top {
+    border-top: 2px solid rgba(var(--cui-primary-rgb), 1) !important;
+}
+
+.border-primary-bottom {
+    border-bottom: 2px solid rgba(var(--cui-primary-rgb), 1) !important;
+}
+
+
+// A class to simulate striped tables or an hover effect
+// Useful for bootstrap grid for example
+.odd {
+    color: $table-striped-color;
+    background-color: $table-striped-bg;
+}
+
+
+.toaster-min-width {
+    min-width: 400px;
+}
+
+

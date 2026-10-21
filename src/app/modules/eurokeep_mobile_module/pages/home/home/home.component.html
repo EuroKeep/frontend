@@ -1,0 +1,333 @@
+<ng-container *transloco="let t">
+    <c-col class="mt-3">
+        <nox-input
+                [(value)]="searchString"
+                [type]="'text'"
+                [name]="'searchString'"
+                [label]="''"
+                (onChange)="search()"
+                (keyup)="search()"
+                [placeholder]="t('Search anything, anywhere')"
+        />
+    </c-col>
+    @if (searchString.length >= 3 && searchResults) {
+        <ul>
+            @if (searchResults.items.accounts.length) {
+                <h5>{{t('Accounts')}}</h5>
+                @for (Account of searchResults.items.accounts; track Account.id) {
+                    <account-entry [Account]="Account"/>
+                }
+            }
+            @if (searchResults.items.transactions.length) {
+                <h5>{{t('Transactions')}}</h5>
+                @for (Transaction of searchResults.items.transactions; track Transaction.id) {
+                    <transaction-detail-entry [Transaction]="Transaction" [Currency]="Transaction.account?.balance_currency || Currency.eur"/>
+                }
+
+            }
+            @if (searchResults.items.budgets.length) {
+                <li>
+                    <fa-icon [icon]="['fas', 'wallet']"/>
+                    {{ t('Budgets') }}
+                </li>
+                @for (Budget of searchResults.items.budgets; track Budget.id) {
+                    <li [routerLink]="['/', 'mobile', 'budget', 'list', Budget.id]">
+
+                        {{ Budget.name }}
+                    </li>
+                }
+
+            }
+            @if (searchResults.items.piggybanks.length) {
+                <li>
+                    <fa-icon [icon]="['fas', 'piggy-bank']"/>
+                    {{ ('Piggybanks') }}
+
+                </li>
+                @for (Piggybank of searchResults.items.piggybanks; track Piggybank.id) {
+                    <li>
+
+                        {{ Piggybank.name }}
+                    </li>
+                }
+            }
+            @if (searchResults.items.subscriptions.length) {
+                <h5>
+                    <fa-icon [icon]="['fas', 'calendar']"/>
+                    {{ t('Subscriptions') }}
+                </h5>
+                @for (Subscription of searchResults.items.subscriptions; track Subscription.id) {
+                    <subscription-entry [SubscriptionItem]="Subscription" [Currency]="Subscription.account?.balance_currency || Currency.eur"/>
+                }
+            }
+        </ul>
+    }
+
+    @if (Networth) {
+        <c-card [routerLink]="['/', 'mobile', 'account', 'list']"
+                class="mt-3">
+            <c-card-header>
+                {{ t('Your net worth is') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    <c-col [xs]="12" class="text-end">
+                        <h1>
+                            <balance [Currency]="Networth.balance_currency" [AnimateFirstValue]="true"
+                                     [Value]="Networth.balance_value"/>
+                        </h1>
+                    </c-col>
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+    @if (Accounts && Accounts.length !== 0) {
+        <c-card class="mt-3">
+            <c-card-header>
+                {{ t('Your Accounts') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    @for (Account of Accounts; track Account.id) {
+                        @if (Accounts.length < 3 || Account.flags === 3) {
+                            <c-col [xs]="12" [sm]="12" [md]="6" [lg]="6" [xl]="6"
+                                   class="mb-3 cursor-pointer">
+                                <account-entry
+                                        [Account]="Account"
+                                        [ShowIban]="false"/>
+                            </c-col>
+                        }
+                    }
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+    @if (Budgets) {
+        <c-card class="mt-3">
+            <c-card-header [routerLink]="['/', 'mobile', 'budget', 'list']">
+                {{ t('Budgets') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    @for (Budget of Budgets; track Budget.id) {
+                        <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                               [routerLink]="['/', 'mobile', 'budget', 'list', Budget.id]"
+                               class="mb-3 cursor-pointer">
+                            <c-card class="menuItem">
+                                <c-card-body class="text-center">
+                                    <h1>
+                                        {{ Budget.category?.emoji }}
+                                    </h1>
+                                    <budget-progressbar [Budget]="Budget"/>
+                                </c-card-body>
+                                <c-card-footer class="text-center text-muted">
+                                    {{ Budget.name }}
+                                </c-card-footer>
+                            </c-card>
+                        </c-col>
+                    }
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+    @if (Piggybanks) {
+        <c-card class="mt-3">
+            <c-card-header [routerLink]="['/', 'mobile', 'saving', 'list']">
+                {{ t('Piggybanks') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    @for (Piggybank of Piggybanks; track Piggybank.id) {
+                        <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                               [routerLink]="['/', 'mobile', 'saving', 'edit', Piggybank.id]"
+                               class="mb-3 cursor-pointer">
+                            <c-card class="menuItem">
+                                <c-card-body class="text-center">
+                                    <piggybank-progressbar [Piggybank]="Piggybank"/>
+                                </c-card-body>
+                                <c-card-footer class="text-center text-muted">
+                                    {{ Piggybank.name }}
+                                </c-card-footer>
+                            </c-card>
+                        </c-col>
+                    }
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+    @if (this.SubscriptionStats) {
+        <c-card class="mt-3">
+            <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
+                {{ t('Subscriptions') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                           [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                           class="mb-3 cursor-pointer">
+                        <c-card class="menuItem">
+                            <c-card-body class="text-center">
+                                <h4 nIsDiscrete>
+                                    {{ this.SubscriptionStats.count }}
+                                </h4>
+                                <h4 nIsIndiscrete>
+                                    <span class="currency text-muted hefty-blur">
+                                        ····
+                                    </span>
+                                </h4>
+                                <small>
+                                    {{ t('Subscriptions') }}
+                                </small>
+                            </c-card-body>
+                        </c-card>
+                    </c-col>
+                    <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                           [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                           class="mb-3 cursor-pointer">
+                        <c-card class="menuItem">
+                            <c-card-body class="text-center">
+                                <h4>
+                                    <balance [Currency]="Currency.eur" [Value]="this.SubscriptionStats.monthly_total"/>
+                                </h4>
+                                <small>
+                                    {{ t('Monthly Cost') }}
+                                </small>
+                            </c-card-body>
+                        </c-card>
+                    </c-col>
+                    <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                           [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                           class="mb-3 cursor-pointer">
+                        <c-card class="menuItem">
+                            <c-card-body class="text-center">
+                                <h4>
+                                    <balance [Currency]="Currency.eur" [Value]="this.SubscriptionStats.annual_total"/>
+                                </h4>
+                                <small>
+                                    {{ t('Annual Cost') }}
+                                </small>
+                            </c-card-body>
+                        </c-card>
+                    </c-col>
+                    <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                           [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                           class="mb-3 cursor-pointer">
+                        <c-card class="menuItem">
+                            <c-card-body class="text-center">
+                                <h4>
+                                    <balance [Currency]="Currency.eur" [Value]="this.SubscriptionStats.daily_total"/>
+                                </h4>
+                                <small>
+                                    {{ t('Daily Cost') }}
+                                </small>
+                            </c-card-body>
+                        </c-card>
+                    </c-col>
+                    <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                           [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                           class="mb-3 cursor-pointer">
+                        <c-card class="menuItem">
+                            <c-card-body class="text-center">
+                                <h4>
+                                    <balance [Currency]="Currency.eur"
+                                             [Value]="this.SubscriptionStats.monthly_average"/>
+                                </h4>
+                                <small>
+                                    {{ t('Monthly Average') }}
+                                </small>
+                            </c-card-body>
+                        </c-card>
+                    </c-col>
+                    @if (this.SubscriptionStats.most_expensive) {
+                        <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                               [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                               class="mb-3 cursor-pointer">
+                            <c-card class="menuItem">
+                                <c-card-body class="text-center">
+                                    <h4>
+                                        <balance [Currency]="Currency.eur"
+                                                 [Value]="this.SubscriptionStats.most_expensive.monthly_cost"/>
+                                    </h4>
+                                    <small>
+                                        {{ t('Most expensive') }}
+                                    </small>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                    }
+                    @if (this.SubscriptionStats.cheapest) {
+                        <c-col [xs]="12" [sm]="6" [md]="4" [lg]="3" [xl]="3"
+                               [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                               class="mb-3 cursor-pointer">
+                            <c-card class="menuItem">
+                                <c-card-body class="text-center">
+                                    <h4>
+                                        <balance [Currency]="Currency.eur"
+                                                 [Value]="this.SubscriptionStats.cheapest.monthly_cost"/>
+                                    </h4>
+                                    <small>
+                                        {{ t('Cheapest') }}
+                                    </small>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                    }
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+    @if (SubscriptionForecasts) {
+        <c-card class="mt-3">
+            <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
+                {{ t('Upcoming') }}
+            </c-card-header>
+            <c-card-body>
+                <c-row>
+                    @for (SubscriptionForecast of SubscriptionForecasts; track SubscriptionForecast.id + '-' + SubscriptionForecast.execution) {
+
+                        <c-col [xs]="12" [sm]="6" [md]="6" [lg]="6" [xl]="6"
+                               [routerLink]="['/', 'mobile', 'subscription', 'list']"
+                               class="mb-3 cursor-pointer">
+                            <c-card class="menuItem">
+                                <c-card-body>
+                                    <c-row class="align-items-center">
+                                        <c-col [xs]="3" [sm]="3" [md]="3" [lg]="3" [xl]="3" class="text-center">
+                                            @if (SubscriptionForecast.logo) {
+                                                <subscription-image [SubscriptionItem]="SubscriptionForecast"/>
+                                            } @else {
+                                                <span class="fs-3" role="img"
+                                                      [attr.aria-label]="t('Category') + ': ' + SubscriptionForecast.category?.name"
+                                                      [title]="t('Category') + ': ' + SubscriptionForecast.category?.name">
+                                                    {{ SubscriptionForecast.category?.emoji }}
+                                                </span>
+                                            }
+                                        </c-col>
+                                        <c-col>
+                                            <h4>
+                                                <balance [Currency]="Currency.eur"
+                                                         [Value]="SubscriptionForecast.balance_value"/>
+                                            </h4>
+                                            <small>
+                                                {{ SubscriptionForecast.name }}
+                                            </small>
+                                            <br/>
+                                            <small>
+                                                {{ formatDate(SubscriptionForecast.execution) }}
+                                            </small>
+                                        </c-col>
+                                    </c-row>
+                                </c-card-body>
+                            </c-card>
+                        </c-col>
+                    }
+                </c-row>
+            </c-card-body>
+        </c-card>
+    }
+
+</ng-container>

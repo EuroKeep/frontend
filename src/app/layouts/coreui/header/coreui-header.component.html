@@ -1,0 +1,65 @@
+<ng-container *transloco="let t">
+    <ng-container *transloco="let t">
+        <ng-container>
+            <c-container [fluid]="true" class="border-bottom pe-5 d-flex">
+                <c-header-nav class="mx-0">
+                    <ng-container *ngTemplateOutlet="userDropdown"/>
+                    @if (this.DiscreteService.isDiscrete$$.getValue()) {
+                        <a cDropdownItem (click)="this.DiscreteService.toggle(false)">
+                            <fa-icon [icon]="['fas', 'eye-slash']" class="me-2" [size]="'2x'"></fa-icon>
+                        </a>
+                    } @else {
+                        <a cDropdownItem (click)="this.DiscreteService.toggle(true)">
+                            <fa-icon [icon]="['fas', 'eye']" class="me-2" [size]="'2x'"></fa-icon>
+                        </a>
+                    }
+                </c-header-nav>
+
+            </c-container>
+            @if (this.LocalStorageService.getItem('EUROKEEP.ENABLE_REGISTRATION') === true) {
+                <c-card class="p-0 m-0" color="danger">
+                    <c-card-body class="p-0 m-0">
+                        <c-row>
+                            <c-col class="text-center fst-italic pt-3 pb-3">
+                                <a href="https://docs.eurokeep.io/configuration/Docker%20Environment/#enable_registration">
+                                    {{ t('Registration is enabled. Please disable it after setting up your account(s).') }}
+                                </a>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            }
+        </ng-container>
+
+        <ng-template #userDropdown>
+            <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
+                <button [caret]="false" cDropdownToggle class="py-0 pe-0">
+                    <fa-icon [icon]="['fas', 'cog']" size="2x"/>
+                </button>
+                <ul cDropdownMenu class="pt-0 w-auto">
+                    <li>
+                        <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2">
+                            {{ this.AuthenticationService.getUser().name }}
+                        </h6>
+                    </li>
+                    <li>
+                        <hr cDropdownDivider/>
+                    </li>
+                    <li>
+                        <a cDropdownItem [routerLink]="['/', 'mobile', 'settings']">
+                            <fa-icon [icon]="['fas', 'gears']"></fa-icon>
+                            {{ t('Settings') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a cDropdownItem (click)="logout()">
+                            <fa-icon [icon]="['fas', 'arrow-right-from-bracket']"></fa-icon>
+                            {{ t('Logout') }}
+                        </a>
+                    </li>
+                </ul>
+            </c-dropdown>
+        </ng-template>
+
+    </ng-container>
+</ng-container>

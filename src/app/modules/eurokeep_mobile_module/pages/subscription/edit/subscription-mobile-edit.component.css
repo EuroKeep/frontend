@@ -1,0 +1,9 @@
+
+.subscription-image {
+    display: block;
+    margin: 0 auto;
+    height: 0.875rem;
+    width: auto;
+    max-width: 2.5rem;
+    object-fit: contain;
+}
