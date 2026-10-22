@@ -63,6 +63,15 @@
         </ul>
     }
 
+    @if (Accounts && Accounts.length === 0) {
+        <c-row>
+            <c-col class="text-center text-danger fst-italic pt-3 pb-3">
+                {{ t('Begin by adding an account.') }}
+            </c-col>
+        </c-row>
+    }
+
+
     @if (Networth && Networth.balance_value) {
         <c-card [routerLink]="['/', 'mobile', 'account', 'list']"
                 class="mt-3">
