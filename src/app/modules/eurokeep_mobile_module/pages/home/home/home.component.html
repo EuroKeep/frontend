@@ -63,7 +63,7 @@
         </ul>
     }
 
-    @if (Networth) {
+    @if (Networth && Networth.balance_value) {
         <c-card [routerLink]="['/', 'mobile', 'account', 'list']"
                 class="mt-3">
             <c-card-header>
@@ -82,7 +82,7 @@
         </c-card>
     }
 
-    @if (Accounts && Accounts.length !== 0) {
+    @if (Accounts && Accounts.length) {
         <c-card class="mt-3">
             <c-card-header>
                 {{ t('Your Accounts') }}
@@ -104,7 +104,7 @@
         </c-card>
     }
 
-    @if (Budgets) {
+    @if (Budgets && Budgets.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'budget', 'list']">
                 {{ t('Budgets') }}
@@ -133,7 +133,7 @@
         </c-card>
     }
 
-    @if (Piggybanks) {
+    @if (Piggybanks && Piggybanks.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'saving', 'list']">
                 {{ t('Piggybanks') }}
@@ -159,7 +159,18 @@
         </c-card>
     }
 
-    @if (this.SubscriptionStats) {
+    @if (this.SubscriptionStats &&
+        (
+            this.SubscriptionStats.cheapest
+            || this.SubscriptionStats.count
+            || this.SubscriptionStats.monthly_total
+            || this.SubscriptionStats.annual_total
+            || this.SubscriptionStats.daily_total
+            || this.SubscriptionStats.monthly_average
+            || this.SubscriptionStats.most_expensive
+            || this.SubscriptionStats.cheapest
+        )
+            ) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
                 {{ t('Subscriptions') }}
@@ -281,7 +292,7 @@
         </c-card>
     }
 
-    @if (SubscriptionForecasts) {
+    @if (SubscriptionForecasts && SubscriptionForecasts.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
                 {{ t('Upcoming') }}
