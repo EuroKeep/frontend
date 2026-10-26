@@ -72,21 +72,23 @@
     }
 
 
-    @if (Networth && Networth.balance_value) {
+    @if (Networths && Networths.length) {
         <c-card [routerLink]="['/', 'mobile', 'account', 'list']"
                 class="mt-3">
             <c-card-header>
                 {{ t('Your net worth is') }}
             </c-card-header>
             <c-card-body>
-                <c-row>
-                    <c-col [xs]="12" class="text-end">
-                        <h1>
-                            <balance [Currency]="Networth.balance_currency" [AnimateFirstValue]="true"
-                                     [Value]="Networth.balance_value"/>
-                        </h1>
-                    </c-col>
-                </c-row>
+                @for (Networth of Networths; track $index) {
+                    <c-row>
+                        <c-col [xs]="12" class="text-end">
+                            <h1>
+                                <balance [Currency]="Networth.balance_currency" [AnimateFirstValue]="true"
+                                         [Value]="Networth.balance_value"/>
+                            </h1>
+                        </c-col>
+                    </c-row>
+                }
             </c-card-body>
         </c-card>
     }

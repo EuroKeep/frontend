@@ -104,7 +104,7 @@ export class HomeComponent extends AbstractPageComponent {
     protected searchString: string = '';
 
     // For Networth
-    protected Networth?: Networth;
+    protected Networths: Networth[] = [];
 
     // For Piggybanks
     protected Piggybanks: Piggybank[] = [];
@@ -149,8 +149,8 @@ export class HomeComponent extends AbstractPageComponent {
             error: (error) => this.handleError(error?.error?.error)
         }));
         this.Subscription.add(this.DashboardService.getNetWorth().subscribe({
-            next: (result: ApiItemResponse<Networth>) => {
-                this.Networth = result.item;
+            next: (result: ApiIndexResponse<Networth>) => {
+                this.Networths = result.items;
                 this.ChangeDetectorRef.markForCheck();
             },
             error: (error) => this.handleError(error?.error?.error)
