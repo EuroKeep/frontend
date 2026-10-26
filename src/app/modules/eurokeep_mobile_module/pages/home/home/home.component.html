@@ -331,7 +331,7 @@
                                         </c-col>
                                         <c-col>
                                             <h4>
-                                                <balance [Currency]="Currency.eur"
+                                                <balance [Currency]="SubscriptionForecast.account?.balance_currency || Currency.eur"
                                                          [Value]="SubscriptionForecast.balance_value"/>
                                             </h4>
                                             <small>
