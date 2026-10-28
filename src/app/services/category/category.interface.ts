@@ -1,5 +1,6 @@
 import {AbstractHttpResponse, AbstractObject} from "../abstract/abstract.interface";
 import {Transaction} from "../transaction/transaction.interface";
+import {OptionLabelFn} from "../../components/form/select-component/select-component.component";
 
 export interface CategoryTreeResponse extends AbstractHttpResponse {
     categoryTree: Category[]
@@ -40,4 +41,20 @@ export function flattenCategoryTree(tree: Category[], excludeId: number | null =
             rows.push(...flattenCategoryTree(Category.children ?? [], excludeId, depth + 1));
         });
     return rows;
+}
+
+/**
+ * I will output the Category's label with the Emoji, the title and the parent category in parenthesis:
+ *
+ * ⛽ Gas (Bike)
+ * 🥖 Bakery (Groceries)
+ * @param categories
+ */
+export function categoryOptionLabel(categories: Category[]): OptionLabelFn<Category> {
+    const byId = new Map<number, Category>(categories.map((category: Category) => [category.id, category]));
+    return (category: Category) => {
+        const label = category.emoji ? `${category.emoji} ${category.name}` : category.name;
+        const parent = category.parent_id !== null ? byId.get(category.parent_id) : undefined;
+        return parent ? `${label} (${parent.name})` : label;
+    };
 }
