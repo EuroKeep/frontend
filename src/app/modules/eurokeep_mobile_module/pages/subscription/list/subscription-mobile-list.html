@@ -33,7 +33,7 @@
                         [title]="t('Edit subscription {{Name}}', {Name: Subscription.name})">
                     <c-card-body class="p-1">
                         <c-row class="align-items-center">
-                            <c-col [xs]="1" class="text-center d-none d-sm-block">
+                            <c-col xs="auto" class="image-col text-center d-none d-sm-block">
                                 @if (Subscription.logo) {
                                     <subscription-image [SubscriptionItem]="Subscription" />
                                 } @else {
@@ -44,10 +44,10 @@
                                     </span>
                                 }
                             </c-col>
-                            <c-col [xs]="8" [sm]="3">
+                            <c-col>
                                 {{ Subscription.name }}
                             </c-col>
-                            <c-col [xs]="2" class="text-center d-none d-sm-block">
+                            <c-col class="text-center d-none d-md-block">
                                 @if (Subscription.interval) {
                                     <small class="text-muted" [title]="t('Billing interval')">
                                         <fa-icon [icon]="['fas', 'refresh']"/>
@@ -55,7 +55,7 @@
                                     </small>
                                 }
                             </c-col>
-                            <c-col [xs]="2" class="text-center d-none d-sm-block">
+                            <c-col class="text-center d-none d-md-block">
                                 @let nextDue = nextDueDate(Subscription);
                                 @if (nextDue) {
                                     <small class="text-muted" [title]="t('Next due date')">
@@ -64,7 +64,7 @@
                                     </small>
                                 }
                             </c-col>
-                            <c-col [xs]="4" [sm]="3" class="text-end">
+                            <c-col class="text-end">
                                 <span [title]="t('Amount per billing')">
                                     <b>
                                         <balance
@@ -81,7 +81,7 @@
                                     </small>
                                 }
                             </c-col>
-                            <c-col [xs]="1" class="text-center d-none d-sm-block">
+                            <c-col xs="auto" class="image-col d-none d-sm-flex justify-content-center">
                                 @if (Subscription.payment_method) {
                                     <paymentmethod [Paymentmethod]="Subscription.payment_method"/>
                                 }
