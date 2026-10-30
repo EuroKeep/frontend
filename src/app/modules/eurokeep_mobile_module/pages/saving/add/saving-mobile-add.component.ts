@@ -13,11 +13,11 @@ import {
 } from '@coreui/angular';
 import {PiggybankService} from "../../../../../services/piggybank/piggybank.service";
 import {Piggybank} from "../../../../../services/piggybank/piggybank.interface";
-import {Account, Currencies} from "../../../../../services/account/account.interface";
+import {Account, Currencies, CurrencyOption, currencyOptionLabel} from "../../../../../services/account/account.interface";
 import {AccountService} from "../../../../../services/account/account.service";
 import {AbstractPageComponent} from "../../abstract/abstract-page.component";
 import {InputComponent} from "../../../../../components/form/input-component/input-component";
-import {SelectComponent} from "../../../../../components/form/select-component/select-component.component";
+import {OptionLabelFn, SelectComponent} from "../../../../../components/form/select-component/select-component.component";
 import {BalanceInputComponent} from "../../../../../components/form/balance-input-component/balance-input-component";
 import {SpamsaveDirective} from "../../../../../directives/spamsave.directive";
 import {ApiAddResponse, ApiIndexResponse} from "../../../../../services/abstract/abstract.interface";
@@ -104,4 +104,5 @@ export class SavingMobileAddComponent extends AbstractPageComponent {
     }
 
     protected readonly Currencies = Currencies;
+    protected readonly currencyOptionLabel: OptionLabelFn<CurrencyOption> = currencyOptionLabel(Currencies);
 }

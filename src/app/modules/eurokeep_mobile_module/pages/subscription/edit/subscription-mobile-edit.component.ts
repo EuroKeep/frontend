@@ -30,7 +30,7 @@ import {
 import {RouterLink} from "@angular/router";
 import {SubscriptionMobileAddComponent} from "../add/subscription-mobile-add.component";
 import {Account} from "../../../../../services/account/account.interface";
-import {Category} from "../../../../../services/category/category.interface";
+import {Category, categoryOptionLabel} from "../../../../../services/category/category.interface";
 import {Paymentmethod} from "../../../../../services/paymentmethod/paymentmethod.interface";
 import {IntervalInputComponent} from "../../../../../components/form/interval-input/interval-input.component";
 import {LogoUploadComponent} from "../../../../../components/logo-upload/logo-upload.component";
@@ -85,6 +85,7 @@ export class SubscriptionMobileEditComponent extends SubscriptionMobileAddCompon
             }) => {
                 this.Accounts = accounts.items;
                 this.Categories = categories.items;
+                this.categoryOptionLabel = categoryOptionLabel(this.Categories);
                 this.Paymentmethods = paymentmethods.items;
                 this.post = subscription.item;
                 this.ChangeDetectorRef.markForCheck();

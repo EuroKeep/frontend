@@ -1,5 +1,6 @@
 import {AbstractObject} from "../abstract/abstract.interface";
 import {Currency} from "../currency/currency.interface";
+import {OptionLabelFn} from "../../components/form/select-component/select-component.component";
 
 
 export interface TotalBalance {
@@ -18,8 +19,26 @@ export interface Account extends AbstractObject {
     user_id: number
 }
 
+export interface CurrencyOption {
+    id: string
+    symbol: string
+    text: string
+    flag: string
+    name: string
+}
 
-export const Currencies : any[]= [
+/**
+ * I will output the Currency's label with the Emoji, the ISO Code,e teh name and the currency symbol:
+ *
+ * 🇪🇺 EUR — Euro (€)
+ * 🇨🇭 CHF — Swiss Franc (CHF)
+ * @param currencies unused for now; keeps the signature identical to the other option label factories
+ */
+export function currencyOptionLabel(currencies: CurrencyOption[]): OptionLabelFn<CurrencyOption> {
+    return (currency: CurrencyOption) => `${currency.flag} ${currency.id.toUpperCase()} — ${currency.text} (${currency.symbol})`;
+}
+
+export const Currencies: CurrencyOption[] = [
     /* EUROPE */
     { id: 'eur', symbol: '€', text: 'Euro', flag: '🇪🇺', name: '🇪🇺 EUR — Euro' },
     { id: 'gbp', symbol: '£', text: 'British Pound', flag: '🇬🇧', name: '🇬🇧 GBP — British Pound' },
@@ -77,4 +96,4 @@ export const Currencies : any[]= [
 
     /* CRYPTO */
     { id: 'btc', symbol: '₿', text: 'Bitcoin', flag: '₿', name: '₿ BTC — Bitcoin' }
-] as const
+]

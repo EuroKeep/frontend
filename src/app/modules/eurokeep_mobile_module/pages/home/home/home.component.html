@@ -63,26 +63,37 @@
         </ul>
     }
 
-    @if (Networth) {
+    @if (Accounts && Accounts.length === 0) {
+        <c-row>
+            <c-col class="text-center text-danger fst-italic pt-3 pb-3">
+                {{ t('Begin by adding an account.') }}
+            </c-col>
+        </c-row>
+    }
+
+
+    @if (Networths && Networths.length) {
         <c-card [routerLink]="['/', 'mobile', 'account', 'list']"
                 class="mt-3">
             <c-card-header>
                 {{ t('Your net worth is') }}
             </c-card-header>
             <c-card-body>
-                <c-row>
-                    <c-col [xs]="12" class="text-end">
-                        <h1>
-                            <balance [Currency]="Networth.balance_currency" [AnimateFirstValue]="true"
-                                     [Value]="Networth.balance_value"/>
-                        </h1>
-                    </c-col>
-                </c-row>
+                @for (Networth of Networths; track $index) {
+                    <c-row>
+                        <c-col [xs]="12" class="text-end">
+                            <h1>
+                                <balance [Currency]="Networth.balance_currency" [AnimateFirstValue]="true"
+                                         [Value]="Networth.balance_value"/>
+                            </h1>
+                        </c-col>
+                    </c-row>
+                }
             </c-card-body>
         </c-card>
     }
 
-    @if (Accounts && Accounts.length !== 0) {
+    @if (Accounts && Accounts.length) {
         <c-card class="mt-3">
             <c-card-header>
                 {{ t('Your Accounts') }}
@@ -104,7 +115,7 @@
         </c-card>
     }
 
-    @if (Budgets) {
+    @if (Budgets && Budgets.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'budget', 'list']">
                 {{ t('Budgets') }}
@@ -133,7 +144,7 @@
         </c-card>
     }
 
-    @if (Piggybanks) {
+    @if (Piggybanks && Piggybanks.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'saving', 'list']">
                 {{ t('Piggybanks') }}
@@ -159,7 +170,18 @@
         </c-card>
     }
 
-    @if (this.SubscriptionStats) {
+    @if (this.SubscriptionStats &&
+        (
+            this.SubscriptionStats.cheapest
+            || this.SubscriptionStats.count
+            || this.SubscriptionStats.monthly_total
+            || this.SubscriptionStats.annual_total
+            || this.SubscriptionStats.daily_total
+            || this.SubscriptionStats.monthly_average
+            || this.SubscriptionStats.most_expensive
+            || this.SubscriptionStats.cheapest
+        )
+            ) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
                 {{ t('Subscriptions') }}
@@ -281,7 +303,7 @@
         </c-card>
     }
 
-    @if (SubscriptionForecasts) {
+    @if (SubscriptionForecasts && SubscriptionForecasts.length) {
         <c-card class="mt-3">
             <c-card-header [routerLink]="['/', 'mobile', 'subscription', 'list']">
                 {{ t('Upcoming') }}
@@ -309,7 +331,7 @@
                                         </c-col>
                                         <c-col>
                                             <h4>
-                                                <balance [Currency]="Currency.eur"
+                                                <balance [Currency]="SubscriptionForecast.account?.balance_currency || Currency.eur"
                                                          [Value]="SubscriptionForecast.balance_value"/>
                                             </h4>
                                             <small>

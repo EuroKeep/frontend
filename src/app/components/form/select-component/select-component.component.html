@@ -10,15 +10,19 @@
         }
         <ng-select #noxSelect
                    [items]="Items()"
-                   bindLabel="name"
-                   bindValue="id"
+                   [bindLabel]="bindLabel()"
+                   [bindValue]="bindValue()"
+                   [searchFn]="searchByOptionLabel"
                    [name]="name()"
                    [placeholder]="placeholder()"
                    (change)="changeSignal()"
                    [virtualScroll]="true"
                    [(ngModel)]="value">
+            <ng-template ng-label-tmp let-item="item">
+                {{ getSelectedLabel(item) }}
+            </ng-template>
             <ng-template ng-option-tmp let-category="item" let-search="searchTerm">
-                <div [ngOptionHighlight]="search">{{ category.emoji }} {{ category.name }}</div>
+                <div [innerHTML]="getOptionLabel(category) | optionHighlight:search"></div>
             </ng-template>
         </ng-select>
         @if (required()) {
