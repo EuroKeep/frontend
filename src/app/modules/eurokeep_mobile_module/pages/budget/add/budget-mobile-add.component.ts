@@ -15,9 +15,9 @@ import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {InputComponent} from "../../../../../components/form/input-component/input-component";
 import {SpamsaveDirective} from "../../../../../directives/spamsave.directive";
-import {SelectComponent} from "../../../../../components/form/select-component/select-component.component";
-import {Category} from "../../../../../services/category/category.interface";
-import {Account, Currencies} from "../../../../../services/account/account.interface";
+import {OptionLabelFn, SelectComponent} from "../../../../../components/form/select-component/select-component.component";
+import {Category, categoryOptionLabel} from "../../../../../services/category/category.interface";
+import {Account, Currencies, CurrencyOption, currencyOptionLabel} from "../../../../../services/account/account.interface";
 import {Budget} from "../../../../../services/budget/budget.interface";
 import {
     ApiAddResponse,
@@ -59,6 +59,7 @@ export class BudgetMobileAddComponent extends AbstractPageComponent {
     protected readonly CategoryService: CategoryService = inject(CategoryService);
 
     protected Categories: Category[] = [];
+    protected categoryOptionLabel: OptionLabelFn<Category> = categoryOptionLabel([]);
     protected Accounts: Account[] = [];
 
     public override ngOnInit() {
@@ -67,6 +68,7 @@ export class BudgetMobileAddComponent extends AbstractPageComponent {
         this.Subscription.add(this.CategoryService.index().subscribe({
             next: (result: ApiIndexResponse<Category>) => {
                 this.Categories = result.items;
+                this.categoryOptionLabel = categoryOptionLabel(this.Categories);
                 this.ChangeDetectorRef.markForCheck();
             },
             error: (error) => this.handleError(error?.error?.error)
@@ -111,4 +113,5 @@ export class BudgetMobileAddComponent extends AbstractPageComponent {
     }
 
     protected readonly Currencies = Currencies;
+    protected readonly currencyOptionLabel: OptionLabelFn<CurrencyOption> = currencyOptionLabel(Currencies);
 }

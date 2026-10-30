@@ -12,7 +12,7 @@ import {
     RowComponent
 } from '@coreui/angular';
 import {InputComponent} from "../../../../../components/form/input-component/input-component";
-import {SelectComponent} from "../../../../../components/form/select-component/select-component.component";
+import {OptionLabelFn, SelectComponent} from "../../../../../components/form/select-component/select-component.component";
 import {SpamsaveDirective} from "../../../../../directives/spamsave.directive";
 import {AbstractPageComponent} from "../../abstract/abstract-page.component";
 import {SubscriptionService} from "../../../../../services/subscription/subscription.service";
@@ -22,7 +22,7 @@ import {Account} from "../../../../../services/account/account.interface";
 import {ApiAddResponse, ApiIndexResponse} from "../../../../../services/abstract/abstract.interface";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RouterLink} from "@angular/router";
-import {Category} from "../../../../../services/category/category.interface";
+import {Category, categoryOptionLabel} from "../../../../../services/category/category.interface";
 import {CategoryService} from "../../../../../services/category/category.service";
 import {PaymentmethodService} from "../../../../../services/paymentmethod/paymentmethod.service";
 import {Paymentmethod} from "../../../../../services/paymentmethod/paymentmethod.interface";
@@ -82,6 +82,7 @@ export class SubscriptionMobileAddComponent extends AbstractPageComponent {
     protected Accounts: Account[] = [];
     protected Paymentmethods: Paymentmethod[] = [];
     protected Categories: Category[] = [];
+    protected categoryOptionLabel: OptionLabelFn<Category> = categoryOptionLabel([]);
 
     override ngOnInit() {
         super.ngOnInit();
@@ -98,6 +99,7 @@ export class SubscriptionMobileAddComponent extends AbstractPageComponent {
         this.Subscription.add(this.CategoryService.index().subscribe({
             next: (result: ApiIndexResponse<Category>) => {
                 this.Categories = result.items;
+                this.categoryOptionLabel = categoryOptionLabel(this.Categories);
                 this.ChangeDetectorRef.markForCheck();
             },
             error: (error) => this.handleError(error?.error?.error)

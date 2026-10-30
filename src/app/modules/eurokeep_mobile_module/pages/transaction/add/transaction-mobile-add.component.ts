@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Category} from "../../../../../services/category/category.interface";
+import {Category, categoryOptionLabel} from "../../../../../services/category/category.interface";
 import {
     ButtonDirective,
     CardBodyComponent,
@@ -20,7 +20,7 @@ import {AbstractPageComponent} from "../../abstract/abstract-page.component";
 import {Account} from "../../../../../services/account/account.interface";
 import {InputComponent} from "../../../../../components/form/input-component/input-component";
 import {CategoryService} from "../../../../../services/category/category.service";
-import {SelectComponent} from "../../../../../components/form/select-component/select-component.component";
+import {OptionLabelFn, SelectComponent} from "../../../../../components/form/select-component/select-component.component";
 import {SpamsaveDirective} from "../../../../../directives/spamsave.directive";
 import {AccountService} from "../../../../../services/account/account.service";
 import {AccountEntryComponent} from "../../../components/account-entry/account-entry.component";
@@ -68,6 +68,7 @@ export class TransactionMobileAddComponent extends AbstractPageComponent {
     protected accountId: number = 0;
     protected Account?: Account;
     protected Categories: Category[] = [];
+    protected categoryOptionLabel: OptionLabelFn<Category> = categoryOptionLabel([]);
     protected Accounts: Account[] = [];
     protected Subscriptions: Subscription[] = [];
     protected post: Transaction = {} as Transaction;
@@ -81,6 +82,7 @@ export class TransactionMobileAddComponent extends AbstractPageComponent {
         this.Subscription.add(this.CategoryService.index().subscribe({
             next: (result: ApiIndexResponse<Category>) => {
                 this.Categories = result.items;
+                this.categoryOptionLabel = categoryOptionLabel(this.Categories);
                 this.ChangeDetectorRef.markForCheck();
             },
             error: (error) => this.handleError(error?.error?.error)

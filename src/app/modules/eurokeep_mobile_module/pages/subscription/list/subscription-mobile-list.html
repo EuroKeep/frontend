@@ -73,7 +73,7 @@
                                 </span>
                                 <br/>&nbsp;
                                 @let annual = annualCost(Subscription);
-                                @if (annual !== null && annual != Subscription.balance_value) {
+                                @if (annual !== null) {
                                     <small style="opacity: 0.5" [title]="t('Annual cost')">
                                         <balance
                                                 [Currency]="Currency.eur"

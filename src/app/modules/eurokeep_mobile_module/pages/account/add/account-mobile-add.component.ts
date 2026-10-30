@@ -13,10 +13,10 @@ import {
 } from '@coreui/angular';
 import {InputComponent} from "../../../../../components/form/input-component/input-component";
 import {SpamsaveDirective} from "../../../../../directives/spamsave.directive";
-import {SelectComponent} from "../../../../../components/form/select-component/select-component.component";
+import {OptionLabelFn, SelectComponent} from "../../../../../components/form/select-component/select-component.component";
 import {AbstractPageComponent} from "../../abstract/abstract-page.component";
 import {AccountService} from "../../../../../services/account/account.service";
-import {Account, Currencies} from "../../../../../services/account/account.interface";
+import {Account, Currencies, CurrencyOption, currencyOptionLabel} from "../../../../../services/account/account.interface";
 import {AccounttypeService} from "../../../../../services/accounttype/accounttype.service";
 import {Accounttype} from "../../../../../services/accounttype/accounttype.interface";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -51,7 +51,8 @@ import {ApiAddResponse, ApiIndexResponse} from "../../../../../services/abstract
 export class AccountMobileAddComponent extends AbstractPageComponent {
     protected readonly AccountService: AccountService = inject(AccountService);
     protected readonly AccounttypeService: AccounttypeService = inject(AccounttypeService);
-    protected readonly Currencies: any[] = Currencies;
+    protected readonly Currencies = Currencies;
+    protected readonly currencyOptionLabel: OptionLabelFn<CurrencyOption> = currencyOptionLabel(Currencies);
 
     protected post: Account = {} as Account;
     protected Accounttypes: Accounttype[] = [];
